@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Chart.js Example - Week/Month Data</title>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   </head>
+   <body>
+      <div>
+         <label for="interval">Select Interval:</label>
+         <select name="interval" id="interval">
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="day">Day</option>
+         </select>
+      </div>
+      <canvas id="myChart"></canvas>
+      <script>
+         var ctx = document.getElementById('myChart').getContext('2d');
+         
+         var dayLabels = ['Day 1', 'Day 2', 'Day 3', 'Day 4'];
+         var dayData = [48, 90, 35, 122];
+         var daySalesData = [100, 200, 50, 250];
+         
+         var weekLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+         var weekData = [60, 85, 72, 94];
+         var weekSalesData = [400, 300, 350, 500];
+         
+         var monthLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+         var monthData = [220, 320, 180, 460, 380, 520, 490, 560, 430, 570, 420, 620];
+         var monthSalesData = [1500, 1800, 1200, 2500, 2100, 2900, 2700, 3200, 2400, 3300, 2200, 3800];
+         
+         var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+               labels: weekLabels,
+               datasets: [{
+                     label: 'User Data',
+                     data: weekData,
+                     fill: false,
+                     borderColor: 'rgb(255, 99, 132)',
+                     tension: 0.4 // set the interpolation mode to 'monotone'
+                  },
+                  {
+                     label: 'Sales Data',
+                     data: weekSalesData,
+                     fill: false,
+                     borderColor: 'rgb(54, 162, 235)',
+                     tension: 0.4 // set the interpolation mode to 'monotone'
+                  }
+               ]
+            },
+            options: {
+               scales: {
+                  yAxes: [{
+                     ticks: {
+                        beginAtZero: true
+                     }
+                  }]
+               },
+               plugins: {
+                  title: {
+                     display: true,
+                     text: 'Chart Title'
+                  }
+               }
+            }
+         });
+         
+         document.getElementById('interval').addEventListener('change', function() {
+            var interval = this.value;
+            var labels, data, salesData;
+         
+            if (interval === 'week') {
+               labels = weekLabels;
+               data = weekData;
+               salesData = weekSalesData;
+            } else if (interval === 'month') {
+               labels = monthLabels;
+               data = monthData;
+               salesData = monthSalesData;
+            } else if (interval === 'day') {
+               labels = dayLabels;
+               data = dayData;
+               salesData = daySalesData;
+            }
+         
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = data;
+            myChart.data.datasets[1].data = salesData;
+            myChart.update();
+         });
+      </script>
+   </body>
+</html>
